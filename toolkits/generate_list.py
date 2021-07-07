@@ -10,6 +10,7 @@ def generate_path_label(image_dir, label_dir, dst_file):
 
     # 记录每个图有多少个框
     counts = {}
+    catgory = {"0":0, "1":0, "2":0}
 
     # 第二步找到对应的label文件
     with open(dst_file, 'w') as fw:
@@ -20,7 +21,6 @@ def generate_path_label(image_dir, label_dir, dst_file):
             # 只写图片路径名
             # fw.writelines(image_path.split("phase1/")[1] + "\n")
 
-           
             # 写图片路径和label
             with open(label_path, 'r') as fr:
                 lines = fr.readlines()
@@ -32,6 +32,12 @@ def generate_path_label(image_dir, label_dir, dst_file):
                     counts[str(len(lines))] = 1
                 else:
                     counts[str(len(lines))] += 1
+
+                # 统计每个类别的样本数目
+                for line in lines:
+                    catgory[line.split(" ")[0]] += 1
+
+    # 展示框的数目：图片数
     x = []
     y = []
     for key in sorted([int(x) for x in counts.keys()]):
@@ -40,6 +46,7 @@ def generate_path_label(image_dir, label_dir, dst_file):
     print(x)
     print(y)
 
+    print(catgory)
     return
 
 
