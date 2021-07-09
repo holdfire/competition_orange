@@ -6,11 +6,15 @@ def generate_path_label(image_dir, label_dir, dst_file):
 
     # 第一步生成所有的图片的路径
     image_paths = glob.glob(image_dir + "/*[jpg,JPG]")
-    print(len(image_paths))
+    # print(len(image_paths))
 
     # 记录每个图有多少个框
     counts = {}
     catgory = {"0":0, "1":0, "2":0}
+    # 记录长宽比
+    ratio_dict = {}
+    # 记录宽度
+    width_dict = {}
 
     # 第二步找到对应的label文件
     with open(dst_file, 'w') as fw:
@@ -33,9 +37,32 @@ def generate_path_label(image_dir, label_dir, dst_file):
                 else:
                     counts[str(len(lines))] += 1
 
-                # 统计每个类别的样本数目
+                # 在原始标注文件的每一行
                 for line in lines:
+                    # 统计每个类别的样本数目
                     catgory[line.split(" ")[0]] += 1
+
+                    # 统计长宽比
+                    ratio = float(line.split(" ")[3]) / float(line.split(" ")[4])
+                    if ratio >= 2:
+                        ratio = int(ratio)
+                    else:
+                        ratio = int(ratio * 10) / 10
+                        ratio = round(ratio, 1)
+                    # 保存
+                    if ratio in ratio_dict:
+                        ratio_dict[ratio] += 1
+                    else:
+                        ratio_dict[ratio] = 1
+
+                    # 统计宽度
+                    width = float(line.split(" ")[3])
+                    width = round(width, 1)
+                    if width in width_dict:
+                        width_dict[width] += 1
+                    else:
+                        width_dict[width] = 1
+
 
     # 展示框的数目：图片数
     x = []
@@ -45,8 +72,29 @@ def generate_path_label(image_dir, label_dir, dst_file):
         y.append(counts[str(key)])
     print(x)
     print(y)
-
     print(catgory)
+
+    # 展示长宽比
+    x = []
+    y = []
+    for key in sorted([x for x in ratio_dict.keys()]):
+
+        x.append(key)
+        y.append(ratio_dict[key])
+    print(x)
+    print(y)
+    print(ratio_dict)
+
+    # 展示宽度
+    x = []
+    y = []
+    for key in sorted([x for x in width_dict.keys()]):
+        x.append(key)
+        y.append(width_dict[key])
+    print(x)
+    print(y)
+    print(width_dict)
+
     return
 
 
