@@ -2,7 +2,7 @@ import os
 import cv2
 
 
-def draw(item, save_path, image_dir="/home/projects/orange/data/phase1"):
+def draw(item, save_path, image_dir="/home/projects/competition_orange/data/phase1"):
     parts = item.strip().split(" ")
     if not len(parts) % 5 == 1:
         print("item length error: {}".format(item))
@@ -72,8 +72,8 @@ def batch_draw(image_list, save_dir, sup=100):
 
 if __name__ == "__main__":
 
-    image_list = "/home/projects/orange/data/list/train_list.txt"
-    save_dir = "/home/projects/orange/data/image_bbox"
+    image_list = "/home/projects/competition_orange/data/list/train_list.txt"
+    save_dir = "/home/projects/competition_orange/data/image_bbox"
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
 

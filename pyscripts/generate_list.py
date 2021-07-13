@@ -99,11 +99,28 @@ def generate_path_label(image_dir, label_dir, dst_file):
 
 
 
+def generate_test(src_dir, dst_file):
+    image_paths = glob.glob(src_dir + "/*[jpg,JPG]")
+    with open(dst_file, 'w') as fw:
+        for i, image_path in enumerate(image_paths):
+            fw.writelines(image_path.split("phase1/")[1] + " 0 0.5 0.5 0.2 0.2\n")
+    return
+
+
+
+
+
+
 if __name__ == "__main__":
 
-    image_dir = "/home/projects/orange/data/phase1/train/images/"
-    label_dir = "/home/projects/orange/data/phase1/train/labels/"
-    dst_file = "/home/projects/orange/data/list/train_list.txt"
-    if not os.path.exists(os.path.dirname(dst_file)):
-        os.makedirs(os.path.dirname(dst_file))
-    generate_path_label(image_dir, label_dir, dst_file)
+    # image_dir = "/home/projects/competition_orange/data/phase1/train/images/"
+    # label_dir = "/home/projects/competition_orange/data/phase1/train/labels/"
+    # dst_file = "/home/projects/competition_orange/data/list/train_list.txt"
+    # if not os.path.exists(os.path.dirname(dst_file)):
+    #     os.makedirs(os.path.dirname(dst_file))
+    # generate_path_label(image_dir, label_dir, dst_file)
+
+
+    src_dir = "/home/projects/competition_orange/data/phase1/test/images/"
+    dst_file = "/home/projects/competition_orange/data/list/test_list.txt"
+    generate_test(src_dir, dst_file)

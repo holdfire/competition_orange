@@ -1,2 +1,6 @@
 data/phase1
 data/image_bbox
+
+mmdetection/work_dirs
+mmdetection/checkpoints/
+mmdetection/result_file/
